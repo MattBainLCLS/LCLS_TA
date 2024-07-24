@@ -18,6 +18,9 @@ LCLS_TA::LCLS_TA(QWidget *parent)
     liveGraph = new QChart();
     series = new QLineSeries(this);
 
+    liveTimer = new QTimer(this);
+    connect(liveTimer, &QTimer::timeout, this, &LCLS_TA::snap);
+
     for (int i = 0; i < 8192; i++)
     {
         series->append(i, 0);
@@ -29,7 +32,7 @@ LCLS_TA::LCLS_TA(QWidget *parent)
     liveGraphVerticalAxis = liveGraph->axes(Qt::Vertical);
     liveGraphVerticalAxis.first()->setRange(0, 4096);
     liveGraphHorizontalAxis = liveGraph->axes(Qt::Horizontal);
-    liveGraphHorizontalAxis.first()->setRange(0, 100);
+    liveGraphHorizontalAxis.first()->setRange(0, 8192);
     liveGraph->setVisible(true);
 
     QChartView* liveGraphView = new QChartView(liveGraph, this);
@@ -38,8 +41,11 @@ LCLS_TA::LCLS_TA(QWidget *parent)
 
 
     //Buttons
+
+    liveButton = new QPushButton("Run", this);
+    connect(liveButton, &QPushButton::released, this, &LCLS_TA::toggleLive);
+
     grabButton = new QPushButton("Grab", this);
-    //connect(grabButton, &QPushButton::released, this, &LCLS_TA::randomize);
     connect(grabButton, &QPushButton::released, this, &LCLS_TA::snap);
 
     saveButton = new QPushButton("Save", this);
@@ -61,7 +67,7 @@ LCLS_TA::LCLS_TA(QWidget *parent)
     // Build Window
 
     liveGraphLayout->addWidget(liveGraphView);
-
+    liveGraphButtonLayout->addWidget(liveButton);
     liveGraphButtonLayout->addWidget(grabButton);
     liveGraphButtonLayout->addWidget(saveButton);
     
@@ -119,6 +125,24 @@ void LCLS_TA::snap()
     //series->replace();
 
     statusBox->setText("Snapped finished");
+}
+
+void LCLS_TA::toggleLive()
+{
+    if (!liveTimer->isActive())
+    {
+        liveTimer->start(100); // Start at 10 Hz
+        statusBox->setText("Running");
+        liveButton->setText("Stop");
+        liveButton->setStyleSheet("color: red");
+    }
+    else
+    {
+        liveTimer->stop();
+        statusBox->setText("Stopped");
+        liveButton->setText("Run");
+        liveButton->setStyleSheet("color: black");
+    }
 }
 
 

@@ -24,7 +24,10 @@ private:
     // Live visualizer variables
     QLineSeries* series;
     QPushButton* grabButton;
+    QPushButton* liveButton;
     QPushButton* saveButton;
+    QTimer* liveTimer;
+
     QChart* liveGraph;
     QList<QAbstractAxis*> liveGraphVerticalAxis;
     QList<QAbstractAxis*> liveGraphHorizontalAxis;
@@ -40,5 +43,6 @@ private:
     void snap();
     void save();
     void toggleHardware();
+    void toggleLive();
 
 };

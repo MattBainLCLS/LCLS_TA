@@ -40,17 +40,31 @@ LCLS_TA::LCLS_TA(QWidget *parent)
     connect(saveButton, &QPushButton::released, this, &LCLS_TA::save);
 
 
-    liveGraphLayout->addWidget(liveGraphView);
+   
+
     
+
+    // Status box
+    statusBox = new QLabel(this);
+    statusBox->setFrameStyle(QFrame::Box);
+
+    statusBox->setText("Initializing camera...");
+    statusBox->setText("Initialized.");
+   
+
+    // Build Window
+
+    liveGraphLayout->addWidget(liveGraphView);
+
     liveGraphButtonLayout->addWidget(grabButton);
     liveGraphButtonLayout->addWidget(saveButton);
+    liveGraphButtonLayout->addWidget(statusBox);
 
     liveGraphLayout->addLayout(liveGraphButtonLayout);
 
     QWidget* liveWindow = new QWidget();
     liveWindow->setLayout(liveGraphLayout);
     setCentralWidget(liveWindow);
-
     
 }
 
@@ -61,6 +75,8 @@ void LCLS_TA::randomize()
     {
         series->replace(i, i, ((double)rand() / (RAND_MAX)));
     }
+
+    statusBox->setText("Grabbed.");
 
 
 }

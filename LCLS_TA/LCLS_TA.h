@@ -27,6 +27,8 @@ private:
     QList<QAbstractAxis*> liveGraphVerticalAxis;
     QList<QAbstractAxis*> liveGraphHorizontalAxis;
 
+    QLabel* statusBox;
+
     void randomize();
     void save();
 

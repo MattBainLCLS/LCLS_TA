@@ -2,6 +2,7 @@
 
 #include <QtWidgets/QMainWindow>
 #include "ui_LCLS_TA.h"
+#include <fstream>
 
 #include <QtCore>
 #include <QtGui>
@@ -21,10 +22,12 @@ private:
     // Live visualizer variables
     QLineSeries* series;
     QPushButton* grabButton;
+    QPushButton* saveButton;
     QChart* liveGraph;
     QList<QAbstractAxis*> liveGraphVerticalAxis;
     QList<QAbstractAxis*> liveGraphHorizontalAxis;
 
     void randomize();
+    void save();
 
 };

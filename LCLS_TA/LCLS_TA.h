@@ -8,6 +8,8 @@
 #include <QtGui>
 #include <QtCharts>
 
+#include "camera.h"
+
 class LCLS_TA : public QMainWindow
 {
     Q_OBJECT
@@ -28,8 +30,15 @@ private:
     QList<QAbstractAxis*> liveGraphHorizontalAxis;
 
     QLabel* statusBox;
+    QPushButton* initializeButton;
+
+    // Hardware
+    Camera* camera;
 
     void randomize();
+
+    void snap();
     void save();
+    void toggleHardware();
 
 };

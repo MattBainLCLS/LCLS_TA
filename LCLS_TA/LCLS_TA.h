@@ -10,6 +10,7 @@
 
 #include "camera.h"
 #include "DelayStage.h"
+#include "Measurement.h"
 
 class LCLS_TA : public QMainWindow
 {

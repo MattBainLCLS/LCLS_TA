@@ -1,16 +1,27 @@
 #include "DelayStage.h"
 
-DelayStage::DelayStage()
+DelayStage::DelayStage(QWidget *parent) : QWidget(parent)
 {
 	position = 0;
 	jogSize = 0.1;
 
+	//Label at the top
+	panelTitle = new QLabel;
+	panelTitle->setText("Delay");
+	panelTitle->setAlignment(Qt::AlignCenter);
+	panelTitle->setStyleSheet("border-bottom-width: 1px; border-bottom-style: solid; border-radius: 0px; font: 18pt;");
+
 	jogLayout = new QHBoxLayout();
 
-	jogLeftButton = new QPushButton("<");
-	jogSizeText = new QLineEdit("0.1");
-	jogUnitsLabel = new QLabel(" ps");
-	jogRightButton = new QPushButton(">");
+	jogLeftButton = new QPushButton(this);
+	jogSizeText = new QLineEdit(this);
+	jogUnitsLabel = new QLabel(this);
+	jogRightButton = new QPushButton(this);
+
+	jogLeftButton->setText("<");
+	jogSizeText->setText("0.1");
+	jogUnitsLabel->setText(" ps");
+	jogRightButton->setText(">");
 
 	jogLayout->addWidget(jogLeftButton);
 	jogLayout->addWidget(jogSizeText);
@@ -24,16 +35,30 @@ DelayStage::DelayStage()
 
 	posLayout = new QHBoxLayout();
 
-	posLabel = new QLabel("Position: ");
-	posValue = new QLabel(QString::number(position, 'f', 4));
-	posUnit = new QLabel(" ps");
+	posLabel = new QLabel(this);
+	posValue = new QLabel(this);
+	posUnit = new QLabel(this);
+
+	posLabel->setText("Position: ");
+	posValue->setText(QString::number(position, 'f', 4));
+	posUnit->setText(" ps");
+
+	posLabel->setStyleSheet("font: 18pt;");
+	posValue->setStyleSheet("font: 18pt;");
+	posUnit->setStyleSheet("font: 18pt;");
+
+	posLabel->setAlignment(Qt::AlignHCenter);
+	posValue->setAlignment(Qt::AlignHCenter);
+	posUnit->setAlignment(Qt::AlignHCenter);
 
 	posLayout->addWidget(posLabel);
 	posLayout->addWidget(posValue);
 	posLayout->addWidget(posUnit);
+	posLayout->setAlignment(Qt::AlignCenter);
 
-	delayStageLayout = new QVBoxLayout();
+	delayStageLayout = new QVBoxLayout(this);
 
+	delayStageLayout->addWidget(panelTitle);
 	delayStageLayout->addLayout(posLayout);
 	delayStageLayout->addLayout(jogLayout);
 

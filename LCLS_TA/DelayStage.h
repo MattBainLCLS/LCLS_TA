@@ -6,10 +6,13 @@
 
 class DelayStage : public QWidget
 {
-
+	Q_OBJECT
 private:
+
 	double position;
 	double jogSize;
+
+	QLabel* panelTitle;
 
 	QHBoxLayout* jogLayout;
 	QPushButton* jogLeftButton;
@@ -31,7 +34,7 @@ private:
 	void updatejogSize();
 
 public:
-	DelayStage();
+	DelayStage(QWidget* parent = nullptr);
 	~DelayStage();
 
 	double getPosition();

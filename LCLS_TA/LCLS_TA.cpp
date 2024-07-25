@@ -1,5 +1,4 @@
 #include "LCLS_TA.h"
-//#include "DelayStage.h"
 
 #include "SapClassBasic.h"
 
@@ -57,10 +56,11 @@ LCLS_TA::LCLS_TA(QWidget *parent)
 
 
     //
-    DelayStage* mystage = new DelayStage();
+    DelayStage* mystage = new DelayStage(this);
+    Measurement* tacontrol = new Measurement(this);
    
 
-    
+    QHBoxLayout* mainLayout = new QHBoxLayout;
 
     // Status box
     statusBox = new QLabel(this);
@@ -83,12 +83,21 @@ LCLS_TA::LCLS_TA(QWidget *parent)
 
     liveGraphLayout->addLayout(liveGraphButtonLayout);
     liveGraphLayout->addLayout(statusLayout);
-    liveGraphLayout->addLayout(mystage->getLayout());
+    //liveGraphLayout->addLayout(mystage->getLayout());
+    //liveGraphLayout->addWidget(mystage);
+
+    QVBoxLayout* controlLayout = new QVBoxLayout(parent);
+
+    controlLayout->addWidget(mystage);
+    controlLayout->addWidget(tacontrol);
+
+    mainLayout->addLayout(liveGraphLayout, 2);
+    mainLayout->addLayout(controlLayout, 1);
 
 
 
     QWidget* liveWindow = new QWidget();
-    liveWindow->setLayout(liveGraphLayout);
+    liveWindow->setLayout(mainLayout);
     setCentralWidget(liveWindow);
 
     camera = new Camera();

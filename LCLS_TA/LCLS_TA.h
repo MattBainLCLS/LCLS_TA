@@ -9,6 +9,7 @@
 #include <QtCharts>
 
 #include "camera.h"
+#include "DelayStage.h"
 
 class LCLS_TA : public QMainWindow
 {

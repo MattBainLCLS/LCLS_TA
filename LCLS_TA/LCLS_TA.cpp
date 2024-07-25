@@ -1,4 +1,5 @@
 #include "LCLS_TA.h"
+//#include "DelayStage.h"
 
 #include "SapClassBasic.h"
 
@@ -55,6 +56,8 @@ LCLS_TA::LCLS_TA(QWidget *parent)
     connect(initializeButton, &QPushButton::released, this, &LCLS_TA::toggleHardware);
 
 
+    //
+    DelayStage* mystage = new DelayStage();
    
 
     
@@ -74,10 +77,15 @@ LCLS_TA::LCLS_TA(QWidget *parent)
     statusLayout->addWidget(statusBox);
     statusLayout->addWidget(initializeButton);
 
+    //// TESTING
+    //DelayStage* testDelayStage = new DelayStage();
 
 
     liveGraphLayout->addLayout(liveGraphButtonLayout);
     liveGraphLayout->addLayout(statusLayout);
+    liveGraphLayout->addLayout(mystage->getLayout());
+
+
 
     QWidget* liveWindow = new QWidget();
     liveWindow->setLayout(liveGraphLayout);

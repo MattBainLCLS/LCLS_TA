@@ -107,6 +107,7 @@
     <QtUic Include="LCLS_TA.ui" />
     <QtMoc Include="LCLS_TA.h" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="DelayStage.cpp" />
     <ClCompile Include="LCLS_TA.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
@@ -115,6 +116,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="DelayStage.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

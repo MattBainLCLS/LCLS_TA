@@ -117,7 +117,13 @@ void LCLS_TA::snap()
     for (int i = 0; i < 8192; i++)
     {
         point.setX(i);
-        point.setY(data[i]);
+        //point.setY(data[i]);
+        point.setY(0);
+        for (int j = 0; j < 500; j++)
+        {
+            point.setY(point.y() + data[i + 500 * j]); // sum over the other axis
+        }
+        
         mylist.push_back(point);
         
     }

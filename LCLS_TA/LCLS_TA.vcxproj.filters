@@ -49,12 +49,18 @@
     <ClCompile Include="Measurement.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="DelayGenerate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Library Include="..\..\..\..\..\..\Program Files\Teledyne DALSA\Sapera\Lib\Win64\SapClassBasic.lib" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DelayGenerate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

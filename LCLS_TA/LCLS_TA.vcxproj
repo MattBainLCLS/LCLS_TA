@@ -103,6 +103,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DelayGenerate.cpp" />
     <ClCompile Include="Measurement.cpp" />
     <QtRcc Include="LCLS_TA.qrc" />
     <QtUic Include="LCLS_TA.ui" />
@@ -117,6 +118,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="DelayGenerate.h" />
     <QtMoc Include="Measurement.h" />
     <QtMoc Include="DelayStage.h" />
   </ItemGroup>

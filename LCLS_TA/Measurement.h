@@ -4,11 +4,15 @@
 #include <QtCore>
 #include <QtGui>
 
+#include "DelayGenerate.h";
+
 class Measurement : public QWidget
 {
 	Q_OBJECT
 
 private:
+
+	DelayGenerate* delaywindow;
 
 	QLabel* panelTitle;
 	
@@ -23,6 +27,7 @@ private:
 	bool running;
 
 	void toggleRun();
+	void showDelayGenerator();
 
 public:
 

@@ -25,6 +25,7 @@ Measurement::Measurement(QWidget* parent) : QWidget(parent)
 	stopButton->setStyleSheet("color: red");
 
 	generateDelays->setText("Generate Delays");
+	connect(generateDelays, &QPushButton::released, this, &Measurement::showDelayGenerator);
 
 	runLayout->addWidget(runButton);
 	runLayout->addWidget(stopButton);
@@ -32,6 +33,10 @@ Measurement::Measurement(QWidget* parent) : QWidget(parent)
 	measurementLayout->addWidget(panelTitle);
 	measurementLayout->addLayout(runLayout);
 	measurementLayout->addWidget(generateDelays);
+
+
+	//delaywindow = new DelayGenerate(this);
+	
 }
 
 bool Measurement::isRunning()
@@ -52,6 +57,11 @@ void Measurement::toggleRun()
 		runButton->setStyleSheet("color: green");
 	}
 	running = !running;
+}
+
+void Measurement::showDelayGenerator()
+{
+	delaywindow->show();
 }
 
 Measurement::~Measurement()

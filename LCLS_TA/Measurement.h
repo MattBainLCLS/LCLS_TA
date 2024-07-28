@@ -4,7 +4,7 @@
 #include <QtCore>
 #include <QtGui>
 
-#include "DelayGenerate.h";
+#include "DelayGenerate.h"
 
 class Measurement : public QWidget
 {

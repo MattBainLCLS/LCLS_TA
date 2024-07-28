@@ -35,7 +35,7 @@ Measurement::Measurement(QWidget* parent) : QWidget(parent)
 	measurementLayout->addWidget(generateDelays);
 
 
-	//delaywindow = new DelayGenerate(this);
+	//
 	
 }
 
@@ -61,6 +61,8 @@ void Measurement::toggleRun()
 
 void Measurement::showDelayGenerator()
 {
+	delaywindow = new DelayGenerate();
+	//delaywindow->setBaseSize(1000, 750);
 	delaywindow->show();
 }
 

@@ -7,6 +7,8 @@ LCLS_TA::LCLS_TA(QWidget *parent)
 {
     ui.setupUi(this);
 
+    this->resize(1600, 1000);
+
     QVBoxLayout* liveGraphLayout = new QVBoxLayout(parent);
     QHBoxLayout* liveGraphButtonLayout = new QHBoxLayout(parent);
     QHBoxLayout* statusLayout = new QHBoxLayout(parent);

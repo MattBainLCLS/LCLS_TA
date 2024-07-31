@@ -5,8 +5,11 @@
 //DELETE
 
 
-DelayGenerate::DelayGenerate(QWidget* parent) : QWidget(parent)
+DelayGenerate::DelayGenerate(QWidget* parent, std::vector<double> *timeDelayPtr) : QWidget(parent)
 {
+
+	delayPtr = timeDelayPtr;
+
 	// Set up Window
 	windowLabel = new QLabel();
 	windowLabel->setText("Delay Generation");
@@ -195,21 +198,17 @@ void DelayGenerate::generateDelayManual()
 
 	QPointF point;
 
+	std::vector<double> manualTimes;
+
+	manualTimes.clear();
+
 	for (int i = 0; i < textlist.size(); i++)
 	{
-		point.setX(i);
-		point.setY(textlist[i].toDouble());
-		timeSeries.push_back(point);
 		manualTimes.push_back(textlist[i].toDouble());
 	}
-	delaySeries->replace(timeSeries);
 
-	double max = *std::max_element(manualTimes.begin(), manualTimes.end());
-	double min = *std::min_element(manualTimes.begin(), manualTimes.end());
+	updateGraph(manualTimes);
 
-
-	delayGraphHorizontalAxis.first()->setRange(0, manualTimes.size());
-	delayGraphVerticalAxis.first()->setRange(min, max);
 }
 
 void DelayGenerate::load()
@@ -219,7 +218,9 @@ void DelayGenerate::load()
 	std::ifstream my_file;
 	my_file.open(file_name.toStdString().c_str());
 
-	manualTimes.erase(manualTimes.begin(), manualTimes.end());
+
+	std::vector<double> loadTimes;
+	loadTimes.clear();
 	std::string data;
 
 	QString timeString;
@@ -229,23 +230,10 @@ void DelayGenerate::load()
 	int i = 0;
 	while (std::getline(my_file, data, ','))
 	{	
-		manualTimes.push_back(QString::fromStdString(data).toDouble());
-		point.setX(i);
-		point.setY(manualTimes[i]);
-		timeSeries.push_back(point);
-		i++;
-		timeString += QString::fromStdString(data + ",");
+		loadTimes.push_back(QString::fromStdString(data).toDouble());
 	}
 
-	manualTextBlock->setText(timeString);
-	delaySeries->replace(timeSeries);
-
-	double max = *std::max_element(manualTimes.begin(), manualTimes.end());
-	double min = *std::min_element(manualTimes.begin(), manualTimes.end());
-
-
-	delayGraphHorizontalAxis.first()->setRange(0, manualTimes.size());
-	delayGraphVerticalAxis.first()->setRange(min, max);
+	updateGraph(loadTimes);
 
 }
 
@@ -258,9 +246,9 @@ void DelayGenerate::save()
 	std::ofstream my_file;
 	my_file.open(file_name.toStdString().c_str());
 
-	for (const auto& time : manualTimes)
+	for (const auto& time : delaySeries->points())
 	{
-		my_file << time << ",";
+		my_file << time.y() << ",";
 	}
 
 	my_file.close();
@@ -290,6 +278,7 @@ void DelayGenerate::generateFromCells()
 		}
 
 		times = addTimesUnique(times, timepiece);
+		
 		updateGraph(times);
 	}
 }
@@ -353,13 +342,16 @@ std::vector<double> DelayGenerate::addTimesUnique(std::vector<double> existingTi
 void DelayGenerate::updateGraph(std::vector<double> times)
 {
 	QList<QPointF> timeSeries;
-
 	QPointF point;
+
+	delayPtr->clear();
+
 	for (int i = 0; i < times.size(); i++)
 	{
 		point.setX(i);
 		point.setY(times[i]);
 		timeSeries.push_back(point);
+		delayPtr->push_back(times[i]); // Update pointer back to measurement
 
 	}
 	delaySeries->replace(timeSeries);

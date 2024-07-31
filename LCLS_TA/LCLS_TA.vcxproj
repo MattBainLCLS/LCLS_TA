@@ -70,7 +70,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Program Files\Teledyne DALSA\Sapera\Include;C:\Program Files\Teledyne DALSA\Sapera\Classes\Basic;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files\boost\boost_1_82_0;C:\Program Files\Teledyne DALSA\Sapera\Include;C:\Program Files\Teledyne DALSA\Sapera\Classes\Basic;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
   </ItemDefinitionGroup>
@@ -104,12 +104,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="DelayGenerate.cpp" />
+    <ClCompile Include="DelayStage.cpp" />
+    <ClCompile Include="Frame.cpp" />
+    <ClCompile Include="LiveBuffer.cpp" />
     <ClCompile Include="Measurement.cpp" />
+    <ClCompile Include="Spectrum.cpp" />
     <QtRcc Include="LCLS_TA.qrc" />
     <QtUic Include="LCLS_TA.ui" />
     <QtMoc Include="LCLS_TA.h" />
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="DelayStage.cpp" />
+    <ClCompile Include="DelayStageGUI.cpp" />
     <ClCompile Include="LCLS_TA.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
@@ -119,8 +123,12 @@
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="DelayGenerate.h" />
+    <ClInclude Include="DelayStage.h" />
+    <ClInclude Include="Frame.h" />
+    <ClInclude Include="LiveBuffer.h" />
+    <ClInclude Include="Spectrum.h" />
     <QtMoc Include="Measurement.h" />
-    <QtMoc Include="DelayStage.h" />
+    <QtMoc Include="DelayStageGUI.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

@@ -58,7 +58,7 @@ LCLS_TA::LCLS_TA(QWidget *parent)
 
 
     //
-    DelayStage* mystage = new DelayStage(this);
+    DelayStageGUI* mystage = new DelayStageGUI(this);
     Measurement* tacontrol = new Measurement(this);
    
 

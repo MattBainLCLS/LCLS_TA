@@ -43,13 +43,25 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DelayStage.cpp">
+    <ClCompile Include="DelayStageGUI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Measurement.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DelayGenerate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DelayStage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Spectrum.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Frame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LiveBuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -63,9 +75,21 @@
     <ClInclude Include="DelayGenerate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DelayStage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Spectrum.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Frame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LiveBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="DelayStage.h">
+    <QtMoc Include="DelayStageGUI.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="Measurement.h">

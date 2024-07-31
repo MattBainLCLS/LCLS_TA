@@ -1,4 +1,5 @@
 #pragma once
+#include "DelayStageGUI.h"
 
 #include <QtWidgets/QMainWindow>
 #include "ui_LCLS_TA.h"
@@ -9,7 +10,7 @@
 #include <QtCharts>
 
 #include "camera.h"
-#include "DelayStage.h"
+
 #include "Measurement.h"
 
 class LCLS_TA : public QMainWindow

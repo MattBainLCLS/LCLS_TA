@@ -16,6 +16,8 @@
 class DelayGenerate : public QWidget
 {
 private:
+
+	std::vector<double>* delayPtr;
 	
 	// Table
 
@@ -77,7 +79,9 @@ private:
 	void updateGraph(std::vector<double> times);
 
 public:
-	DelayGenerate(QWidget* parent = nullptr);
+	DelayGenerate(QWidget* parent = nullptr, std::vector<double> *timeDelayPtr = NULL);
+
+	//void setDelayPtr()
 
 
 

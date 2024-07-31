@@ -61,7 +61,7 @@ void Measurement::toggleRun()
 
 void Measurement::showDelayGenerator()
 {
-	delaywindow = new DelayGenerate();
+	delaywindow = new DelayGenerate(nullptr, &timeDelays);
 	//delaywindow->setBaseSize(1000, 750);
 	delaywindow->show();
 }

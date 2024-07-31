@@ -26,6 +26,8 @@ private:
 
 	bool running;
 
+	std::vector<double> timeDelays;
+
 	void toggleRun();
 	void showDelayGenerator();
 

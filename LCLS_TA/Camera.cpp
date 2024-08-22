@@ -3,13 +3,12 @@
 Camera::Camera()
 {
 	initialized_ = false;
-	width_ = 8192;
-	height_ = 100;
+	//width_ = 8192;
+	//height_ = 100;
 
-	num_elements_ = width_ * height_;
+	//num_elements_ = width_ * height_;
 
-	image_buffer_uint_ = new uint16_t[num_elements_];
-	image_buffer_dbl_ = new double[num_elements_];
+	
 
 	board_name_ = "Xtium2-CLHS_PX8_1";
 	camera_name_ = "CameraLink HS Mono";
@@ -50,7 +49,17 @@ bool Camera::initialize()
 		return false;
 	}
 
+	width_ = buffer_.GetWidth();
+	height_ = buffer_.GetHeight();
 	bytes_per_pixel_ = buffer_.GetBytesPerPixel();
+
+	num_elements_ = width_ * height_;
+
+	image_buffer_uint_ = new uint16_t[num_elements_];
+	image_buffer_dbl_ = new double[num_elements_];
+
+
+	
 
 	image_buffer_ = operator new(bytes_per_pixel_ * num_elements_);
 

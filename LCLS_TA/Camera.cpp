@@ -56,7 +56,7 @@ bool Camera::initialize()
 	num_elements_ = width_ * height_;
 
 	image_buffer_uint_ = new uint16_t[num_elements_];
-	image_buffer_dbl_ = new double[num_elements_];
+	//image_buffer_dbl_ = new double[num_elements_];
 
 
 	
@@ -72,12 +72,12 @@ bool Camera::isInitialized()
 	return initialized_;
 }
 
-arma::Mat<double> Camera::snap()
+void Camera::snap()
 {
 	transfer_node_.Snap();
-	//buffer_.Read(0, num_elements_, image_buffer_);
+	buffer_.Read(0, num_elements_, image_buffer_);
 
-	//uint16_t* image_buffer_uint = (uint16_t*)image_buffer_;
+	image_buffer_uint_ = (uint16_t*)image_buffer_;
 
 	//arma::Col<double> myCol(num_elements_, arma::fill::ones);
 
@@ -88,7 +88,7 @@ arma::Mat<double> Camera::snap()
 
 	//image_buffer_dbl_ = (double*)image_buffer_;
 
-	arma::Mat<double>::fixed<8192, 100> mytest(arma::fill::ones);
+	//arma::Mat<double>::fixed<8192, 100> mytest(arma::fill::ones);
 
 	//arma::Mat<double> mytest = arma::conv_to<arma::Mat<double>::fixed<8192, 100>>::from(myCol);
 	//mytest = arma::conv_to<arma::Mat<double>>::from(myCol);
@@ -96,7 +96,7 @@ arma::Mat<double> Camera::snap()
 	//arma::Mat<double> mytest = arma::mat(&image_buffer_dbl_[0], width_, height_, true, false);
 	//arma::Mat<double> mytest = arma::Mat<double>(8192, 100, arma::fill::ones);
 
-	return mytest;
+	//return mytest;
 	//return (uint16_t*)image_buffer_;
 }
 

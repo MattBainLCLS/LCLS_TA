@@ -34,8 +34,8 @@ public:
 	Camera();
 	~Camera();
 	bool initialize();
-	arma::Mat<double> snap();
-	//void snap();
+	//arma::Mat<double> snap();
+	void snap();
 	bool terminate();
 
 	bool isInitialized();

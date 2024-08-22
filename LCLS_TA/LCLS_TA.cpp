@@ -123,22 +123,25 @@ void LCLS_TA::randomize()
 void LCLS_TA::snap()
 {
     statusBox->setText("Snapping..");
-    camera->snap();
-    //Frame grabbedData = Frame(camera->snap());
+    //arma::Mat<double> mydata = camera->snap();
+    Frame grabbedData = Frame(camera->snap());
+    statusBox->setText("Spectrum size: " + QString::number(grabbedData.pumpOffIntensities()->n_elem));
 
-    //QString mystr = "";
-    //for (int i = 40; i < grabbedData.pumpOffIndices.n_elem; i++)
-    //{
-    //    mystr = mystr + QString::number(grabbedData.pumpOffIndices(i)) + ",";
-    //}
-    //
-    //statusBox->setText(mystr);
+    //statusBox->setText("n cols = " + QString::number(mydata.n_cols) + " n rows = " + QString::number(mydata.n_rows));
+
+    /*QString mystr = "";
+    for (int i = 40; i < grabbedData.pumpOffIndices.n_elem; i++)
+    {
+        mystr = mystr + QString::number(grabbedData.pumpOffIndices(i)) + ",";
+    }
     
+    statusBox->setText(mystr);
+    */
     //camera->snap();
     
     //arma::mat mygrab = camera->snap();
 
-    //statusBox->setText("n cols = " + QString::number(grabbedData.myimage.n_cols) + " n rows = " + QString::number(grabbedData.myimage.n_rows));
+    //statusBox->setText("From Frame: n cols = " + QString::number(grabbedData.test.n_cols) + " n rows = " + QString::number(grabbedData.test.n_rows));
     //;
 
     //QList<QPointF> mylist;

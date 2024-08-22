@@ -38,7 +38,7 @@ QList<QPointF> LiveBuffer::getTA(std::vector<double> xVals)
 
 		for (int j = 0; j < bufferSize; j++)
 		{
-			point.setY(point.y() + buffer[j].transientAbsorption.intensity[i]);
+			//point.setY(point.y() + buffer[j].transientAbsorption.intensities[i]);
 		}
 		point.setY(point.y() / bufferSize);
 		

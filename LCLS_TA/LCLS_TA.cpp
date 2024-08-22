@@ -123,34 +123,55 @@ void LCLS_TA::randomize()
 void LCLS_TA::snap()
 {
     statusBox->setText("Snapping..");
+    camera->snap();
+    //Frame grabbedData = Frame(camera->snap());
+
+    //QString mystr = "";
+    //for (int i = 40; i < grabbedData.pumpOffIndices.n_elem; i++)
+    //{
+    //    mystr = mystr + QString::number(grabbedData.pumpOffIndices(i)) + ",";
+    //}
+    //
+    //statusBox->setText(mystr);
     
-    uint16_t* data = camera->snap();
+    //camera->snap();
+    
+    //arma::mat mygrab = camera->snap();
 
-    QList<QPointF> mylist;
+    //statusBox->setText("n cols = " + QString::number(grabbedData.myimage.n_cols) + " n rows = " + QString::number(grabbedData.myimage.n_rows));
+    //;
 
-    statusBox->setText("Snapped, updating plot");
+    //QList<QPointF> mylist;
 
-    //parent->updatesEnabled(false);
 
-    QPointF point;
-    for (int i = 0; i < 8192; i++)
-    {
-        point.setX(i);
-        //point.setY(data[i]);
-        point.setY(0);
-        for (int j = 0; j < 100; j++)
-        {
-            point.setY(point.y() + data[i + 100 * j]); // sum over the other axis
-        }
-        point.setY(point.y() / 100);
-        
-        mylist.push_back(point);
-        
-    }
-    series->replace(mylist);
+
+    //statusBox->setText("Snapped, updating plot");
+
+    ////parent->updatesEnabled(false);
+
+    //arma::vec* pumpOffData = grabbedData.pumpOffIntensities();
+    //QPointF point;
+    //for (int i = 0; i < pumpOffData->n_cols; i++)
+    //{
+    //    point.setX(i);
+    //    //point.setY(data[i]);
+    //    point.setY(pumpOffData->at(i));
+    //    //for (int j = 0; j < 100; j++)
+    //    //{
+    //    //    point.setY(pumpoffdata->
+    //    //    //point.setY(point.y() + data[i + 8192 * j]); // sum over the other axis
+    //    //}
+    //    //point.setY(point.y() / 100);
+    //    
+    //    mylist.push_back(point);
+    //    
+    //}
+    //series->replace(mylist);
+    
+    
     //series->replace();
 
-    statusBox->setText("Snapped finished");
+    //statusBox->setText("Snapped finished");
 }
 
 void LCLS_TA::toggleLive()

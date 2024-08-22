@@ -13,6 +13,8 @@
 
 #include "Measurement.h"
 
+#include "Frame.h"
+
 class LCLS_TA : public QMainWindow
 {
     Q_OBJECT

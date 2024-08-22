@@ -4,14 +4,18 @@ Camera::Camera()
 {
 	initialized_ = false;
 	width_ = 8192;
-	height_ = 500;
+	height_ = 100;
 
 	num_elements_ = width_ * height_;
+
+	image_buffer_uint_ = new uint16_t[num_elements_];
+	image_buffer_dbl_ = new double[num_elements_];
 
 	board_name_ = "Xtium2-CLHS_PX8_1";
 	camera_name_ = "CameraLink HS Mono";
 	//board_configuration_file_ = "C:\\Program Files\\Teledyne DALSA\\Sapera\\CamFiles\\User\\D_Linea_ML_8k_Mono_8k_10kHz_500_frame.ccf";
-	board_configuration_file_ = "C:\\Program Files\\Teledyne DALSA\\Sapera\\CamFiles\\User\\D_Linea_ML_8k_Mono_8k_1kHz_100_frame_ext_trigger.ccf";
+	//board_configuration_file_ = "C:\\Program Files\\Teledyne DALSA\\Sapera\\CamFiles\\User\\D_Linea_ML_8k_Mono_8k_1kHz_100_frame_ext_trigger.ccf";
+	board_configuration_file_ = "C:\\Program Files\\Teledyne DALSA\\Sapera\\CamFiles\\User\\grabber_config_matt_8_1_1kHz.ccf";
 }
 
 bool Camera::initialize()
@@ -59,13 +63,43 @@ bool Camera::isInitialized()
 	return initialized_;
 }
 
-uint16_t* Camera::snap()
+arma::Mat<double> Camera::snap()
 {
 	transfer_node_.Snap();
-	buffer_.Read(0, num_elements_, image_buffer_);
+	//buffer_.Read(0, num_elements_, image_buffer_);
 
-	return (uint16_t*)image_buffer_;
+	//uint16_t* image_buffer_uint = (uint16_t*)image_buffer_;
+
+	//arma::Col<double> myCol(num_elements_, arma::fill::ones);
+
+	//for (int i = 0; i < num_elements_; i++)
+	//{
+	//	//myCol(i) = (double)image_buffer_uint[i];
+	//}
+
+	//image_buffer_dbl_ = (double*)image_buffer_;
+
+	arma::Mat<double>::fixed<8192, 100> mytest(arma::fill::ones);
+
+	//arma::Mat<double> mytest = arma::conv_to<arma::Mat<double>::fixed<8192, 100>>::from(myCol);
+	//mytest = arma::conv_to<arma::Mat<double>>::from(myCol);
+	
+	//arma::Mat<double> mytest = arma::mat(&image_buffer_dbl_[0], width_, height_, true, false);
+	//arma::Mat<double> mytest = arma::Mat<double>(8192, 100, arma::fill::ones);
+
+	return mytest;
+	//return (uint16_t*)image_buffer_;
 }
+
+//void Camera::snap()
+//{
+//	transfer_node_.Snap();
+//	buffer_.Read(0, num_elements_, image_buffer_);
+//	image_buffer_dbl_ = (double*)image_buffer_;
+//	arma::mat mytest  = arma::mat(&image_buffer_dbl_[0], width_, height_, false);
+//
+//	mytest.t();
+//}
 
 bool Camera::terminate()
 {
@@ -75,4 +109,11 @@ bool Camera::terminate()
 	acquisition_.Destroy();
 	initialized_ = false;
 	return true;
+}
+
+Camera::~Camera()
+{
+	delete image_buffer_;
+	delete image_buffer_uint_;
+	delete image_buffer_dbl_;
 }

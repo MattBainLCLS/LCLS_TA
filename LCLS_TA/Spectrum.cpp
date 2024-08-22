@@ -3,10 +3,19 @@
 Spectrum::Spectrum()
 {}
 
-Spectrum::Spectrum(int pixels)
+Spectrum::Spectrum(arma::Mat<double> data)
 {
-	intensity.reserve(pixels);
-	variance.reserve(pixels);
-	number.reserve(pixels);
+	//intensities = arma::mean(data, 1);
+	//variance = arma::var(data, 0, 1);
+
+}
+
+arma::vec* Spectrum::getIntensities()
+{
+	return &intensities;
+}
+
+Spectrum::~Spectrum()
+{
 
 }

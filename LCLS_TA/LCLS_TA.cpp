@@ -127,54 +127,21 @@ void LCLS_TA::snap()
     Frame grabbedData = Frame(camera->snap());
     statusBox->setText("Spectrum size: " + QString::number(grabbedData.pumpOffIntensities()->n_elem));
 
-    //statusBox->setText("n cols = " + QString::number(mydata.n_cols) + " n rows = " + QString::number(mydata.n_rows));
+    QList<QPointF> myList;
+    QPointF point;
 
-    /*QString mystr = "";
-    for (int i = 40; i < grabbedData.pumpOffIndices.n_elem; i++)
+    arma::vec* pumpOffData = grabbedData.pumpOffIntensities();
+    for (int i = 0; i < 8192; i++)
     {
-        mystr = mystr + QString::number(grabbedData.pumpOffIndices(i)) + ",";
+        point.setX(i);
+        point.setY(pumpOffData->at(i));
+        myList.push_back(point);
+
     }
-    
-    statusBox->setText(mystr);
-    */
-    //camera->snap();
-    
-    //arma::mat mygrab = camera->snap();
 
-    //statusBox->setText("From Frame: n cols = " + QString::number(grabbedData.test.n_cols) + " n rows = " + QString::number(grabbedData.test.n_rows));
-    //;
+    series->replace(myList);
 
-    //QList<QPointF> mylist;
-
-
-
-    //statusBox->setText("Snapped, updating plot");
-
-    ////parent->updatesEnabled(false);
-
-    //arma::vec* pumpOffData = grabbedData.pumpOffIntensities();
-    //QPointF point;
-    //for (int i = 0; i < pumpOffData->n_cols; i++)
-    //{
-    //    point.setX(i);
-    //    //point.setY(data[i]);
-    //    point.setY(pumpOffData->at(i));
-    //    //for (int j = 0; j < 100; j++)
-    //    //{
-    //    //    point.setY(pumpoffdata->
-    //    //    //point.setY(point.y() + data[i + 8192 * j]); // sum over the other axis
-    //    //}
-    //    //point.setY(point.y() / 100);
-    //    
-    //    mylist.push_back(point);
-    //    
-    //}
-    //series->replace(mylist);
-    
-    
-    //series->replace();
-
-    //statusBox->setText("Snapped finished");
+    statusBox->setText("Snapped finished");
 }
 
 void LCLS_TA::toggleLive()

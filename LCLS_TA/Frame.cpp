@@ -16,8 +16,8 @@ Frame::Frame(arma::Mat<double> image)
     //test = image.cols(pumpOffIndices);
 
     pumpOff = Spectrum(image.cols(pumpOffIndices));
-    //pumpOn = Spectrum(image.cols(pumpOnIndices));
-    //transientAbsorption = Spectrum(arma::log10(image.rows(pumpOffIndices) / image.rows(pumpOnIndices)));
+    pumpOn = Spectrum(image.cols(pumpOnIndices));
+    transientAbsorption = Spectrum(arma::log10(image.rows(pumpOffIndices) / image.rows(pumpOnIndices)));
 
 
 }

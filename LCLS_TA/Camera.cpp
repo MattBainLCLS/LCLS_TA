@@ -4,14 +4,15 @@ Camera::Camera()
 {
 	initialized_ = false;
 	width_ = 8192;
-	height_ = 500;
+	height_ = 100;
 
 	num_elements_ = width_ * height_;
 
 	board_name_ = "Xtium2-CLHS_PX8_1";
 	camera_name_ = "CameraLink HS Mono";
 	//board_configuration_file_ = "C:\\Program Files\\Teledyne DALSA\\Sapera\\CamFiles\\User\\D_Linea_ML_8k_Mono_8k_10kHz_500_frame.ccf";
-	board_configuration_file_ = "C:\\Program Files\\Teledyne DALSA\\Sapera\\CamFiles\\User\\D_Linea_ML_8k_Mono_8k_1kHz_100_frame_ext_trigger.ccf";
+	//board_configuration_file_ = "C:\\Program Files\\Teledyne DALSA\\Sapera\\CamFiles\\User\\D_Linea_ML_8k_Mono_8k_1kHz_100_frame_ext_trigger.ccf";
+	board_configuration_file_ = "C:\\Program Files\\Teledyne DALSA\\Sapera\\CamFiles\\User\\grabber_config_matt_8_1_1kHz.ccf";
 }
 
 bool Camera::initialize()

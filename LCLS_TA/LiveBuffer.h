@@ -18,7 +18,7 @@ class LiveBuffer
 private:
 	int bufferCount;
 
-	void increment()
+	void increment();
 	
 };
 

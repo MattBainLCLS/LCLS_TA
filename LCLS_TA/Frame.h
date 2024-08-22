@@ -13,7 +13,7 @@ public:
 
 	Spectrum pumpOn;
 	Spectrum pumpOff;
-	Spectrum transientAbsorption
+	Spectrum transientAbsorption;
 	
 };
 

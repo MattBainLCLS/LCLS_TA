@@ -10,3 +10,6 @@ Spectrum::Spectrum(int pixels)
 	number.reserve(pixels);
 
 }
+
+Spectrum::~Spectrum()
+{}

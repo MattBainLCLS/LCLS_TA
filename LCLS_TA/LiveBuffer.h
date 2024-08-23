@@ -1,24 +1,26 @@
 #pragma once
 
 #include "Frame.h"
-#include <QtCharts>
+#include <QtCore>
 
 class LiveBuffer
 {
-	LiveBuffer();
+public:
+	LiveBuffer(int numFrames);
 	
 	std::vector<Frame> buffer;
 
 	void update(Frame);
 
-	QList<QPointF> getTA(std::vector<double> xVals);
-	Spectrum getPumpOff();
-	Spectrum getPumpOn();
+	QList<QPointF> getTA();
+	QList<QPointF> getPumpOff();
 
 private:
 	int bufferCount;
 
 	void increment();
+
+	int bufferSize;
 	
 };
 

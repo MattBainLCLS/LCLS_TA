@@ -3,10 +3,12 @@
 Camera::Camera()
 {
 	initialized_ = false;
-	width_ = 8192;
-	height_ = 100;
+	//width_ = 8192;
+	//height_ = 100;
 
-	num_elements_ = width_ * height_;
+	//num_elements_ = width_ * height_;
+
+	
 
 	board_name_ = "Xtium2-CLHS_PX8_1";
 	camera_name_ = "CameraLink HS Mono";
@@ -47,7 +49,17 @@ bool Camera::initialize()
 		return false;
 	}
 
+	width_ = buffer_.GetWidth();
+	height_ = buffer_.GetHeight();
 	bytes_per_pixel_ = buffer_.GetBytesPerPixel();
+
+	num_elements_ = width_ * height_;
+
+	image_buffer_uint_ = new uint16_t[num_elements_];
+	//image_buffer_dbl_ = new double[num_elements_];
+
+
+	
 
 	image_buffer_ = operator new(bytes_per_pixel_ * num_elements_);
 
@@ -60,13 +72,43 @@ bool Camera::isInitialized()
 	return initialized_;
 }
 
-uint16_t* Camera::snap()
+arma::Mat<double> Camera::snap()
 {
 	transfer_node_.Snap();
 	buffer_.Read(0, num_elements_, image_buffer_);
 
-	return (uint16_t*)image_buffer_;
+	image_buffer_uint_ = (uint16_t*)image_buffer_;
+
+	arma::Mat<double> myData(num_elements_, 1, arma::fill::ones);
+
+	for (int i = 0; i < num_elements_; i++)
+	{
+		myData(i) = (double)image_buffer_uint_[i];
+	}
+
+	//image_buffer_dbl_ = (double*)image_buffer_;
+
+	//arma::Mat<double> mytest(8192, 100, arma::fill::ones);
+
+	//arma::Mat<double> mytest = arma::conv_to<arma::Mat<double>::fixed<8192, 100>>::from(myCol);
+	//mytest = arma::conv_to<arma::Mat<double>>::from(myCol);
+	//mytest = myCol.reshape(8192, 100);
+	//arma::Mat<double> mytest = arma::mat(&image_buffer_dbl_[0], width_, height_, true, false);
+	//arma::Mat<double> mytest = arma::Mat<double>(8192, 100, arma::fill::ones);
+
+	return myData.reshape(8192, 100);
+	//return (uint16_t*)image_buffer_;
 }
+
+//void Camera::snap()
+//{
+//	transfer_node_.Snap();
+//	buffer_.Read(0, num_elements_, image_buffer_);
+//	image_buffer_dbl_ = (double*)image_buffer_;
+//	arma::mat mytest  = arma::mat(&image_buffer_dbl_[0], width_, height_, false);
+//
+//	mytest.t();
+//}
 
 bool Camera::terminate()
 {
@@ -76,4 +118,11 @@ bool Camera::terminate()
 	acquisition_.Destroy();
 	initialized_ = false;
 	return true;
+}
+
+Camera::~Camera()
+{
+	delete image_buffer_;
+	delete image_buffer_uint_;
+	delete image_buffer_dbl_;
 }

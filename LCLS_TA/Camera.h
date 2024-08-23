@@ -1,6 +1,8 @@
 #pragma once
 #include "SapClassBasic.h"
 
+#include <armadillo>
+
 
 class Camera
 {
@@ -13,6 +15,8 @@ private:
 	int bytes_per_pixel_;
 
 	void* image_buffer_;
+	uint16_t* image_buffer_uint_;
+	double* image_buffer_dbl_;
 
 	bool initialized_;
 
@@ -28,8 +32,10 @@ private:
 
 public:
 	Camera();
+	~Camera();
 	bool initialize();
-	uint16_t* snap();
+	arma::Mat<double> snap();
+	//void snap();
 	bool terminate();
 
 	bool isInitialized();

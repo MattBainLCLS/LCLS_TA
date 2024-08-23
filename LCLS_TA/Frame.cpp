@@ -1,38 +1,37 @@
 #include "Frame.h"
 
-Frame::Frame()
+
+Frame::Frame(arma::Mat<double> image)
 {
-    pumpOn = Spectrum(8192);
-    pumpOff = Spectrum(8192);
-    transientAbsorption = Spectrum(8192);
+
+    length = image.n_cols;
+
+    pumpOffIndices = arma::conv_to<arma::uvec>::from(arma::linspace(0, length-2, length / 2));
+    pumpOnIndices = pumpOffIndices + 1;
+
+    pumpOff = Spectrum(image.cols(pumpOffIndices));
+    pumpOn = Spectrum(image.cols(pumpOnIndices));
+    transientAbsorption = Spectrum(arma::log10(image.rows(pumpOffIndices) / image.rows(pumpOnIndices)));
+
+
+
+
+
 }
 
-Frame::Frame(uint16_t* image)
+arma::vec* Frame::pumpOffIntensities()
 {
-    int length = 100;
+    return pumpOff.getIntensities();
+}
 
-    pumpOn = Spectrum(8192);
-    pumpOff = Spectrum(8192);
-    transientAbsorption = Spectrum(8192);
+arma::vec* Frame::pumpOnIntensities()
+{
+    return pumpOn.getIntensities();
+}
 
-    double off;
-    double on;
-
-    for (int i = 0; i < 8192; i++) // Loop over frames (half number of loops
-    {
-
-        for (int j = 0; j < 100; j+=2)
-        {
-            off = image[i + j * 8192];
-            on = image[i + (j + 1) * 8192];
-            pumpOff.intensity[i] += off;
-            pumpOn.intensity[i] += on;
-            transientAbsorption.intensity[i] += (off / on); // Calculate -log later
-
-        }
-
-    }
-
+arma::vec* Frame::transientAbsorptionIntensities()
+{
+    return transientAbsorption.getIntensities();
 }
 
 Frame::~Frame()

@@ -122,34 +122,28 @@ void LCLS_TA::randomize()
 
 void LCLS_TA::snap()
 {
+    LiveBuffer myBuffer = LiveBuffer(3);
     statusBox->setText("Snapping..");
-    
-    uint16_t* data = camera->snap();
+    Frame grabbedData = Frame(camera->snap());
 
-    QList<QPointF> mylist;
+    myBuffer.update(grabbedData);
 
-    statusBox->setText("Snapped, updating plot");
-
-    //parent->updatesEnabled(false);
-
+    /*QList<QPointF> myList;
     QPointF point;
+
+    arma::vec* pumpOffData = grabbedData.pumpOffIntensities();
     for (int i = 0; i < 8192; i++)
     {
         point.setX(i);
-        //point.setY(data[i]);
-        point.setY(0);
-        for (int j = 0; j < 100; j++)
-        {
-            point.setY(point.y() + data[i + 100 * j]); // sum over the other axis
-        }
-        point.setY(point.y() / 100);
-        
-        mylist.push_back(point);
-        
-    }
-    series->replace(mylist);
-    //series->replace();
+        point.setY(pumpOffData->at(i));
+        myList.push_back(point);
 
+    }
+
+    series->replace(myList);*/
+
+    //series->replace(myBuffer.getPumpOff());
+    series->replace(myBuffer.getTA());
     statusBox->setText("Snapped finished");
 }
 

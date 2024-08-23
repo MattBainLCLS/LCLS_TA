@@ -12,7 +12,7 @@
 #include "camera.h"
 
 #include "Measurement.h"
-
+#include "LiveBuffer.h"
 #include "Frame.h"
 
 class LCLS_TA : public QMainWindow

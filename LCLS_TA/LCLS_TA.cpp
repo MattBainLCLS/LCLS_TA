@@ -122,12 +122,13 @@ void LCLS_TA::randomize()
 
 void LCLS_TA::snap()
 {
+    LiveBuffer myBuffer = LiveBuffer(3);
     statusBox->setText("Snapping..");
-    //arma::Mat<double> mydata = camera->snap();
     Frame grabbedData = Frame(camera->snap());
-    statusBox->setText("Spectrum size: " + QString::number(grabbedData.pumpOffIntensities()->n_elem));
 
-    QList<QPointF> myList;
+    myBuffer.update(grabbedData);
+
+    /*QList<QPointF> myList;
     QPointF point;
 
     arma::vec* pumpOffData = grabbedData.pumpOffIntensities();
@@ -139,8 +140,10 @@ void LCLS_TA::snap()
 
     }
 
-    series->replace(myList);
+    series->replace(myList);*/
 
+    //series->replace(myBuffer.getPumpOff());
+    series->replace(myBuffer.getTA());
     statusBox->setText("Snapped finished");
 }
 

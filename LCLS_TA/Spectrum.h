@@ -5,7 +5,6 @@
 #include <armadillo>
 #include <QtCore>
 
-// Todo replace with Armadillo implementation?
 
 class Spectrum
 {

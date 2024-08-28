@@ -28,10 +28,15 @@ DelayStageGUI::DelayStageGUI(QWidget *parent) : QWidget(parent)
 	jogLayout->addWidget(jogUnitsLabel);
 	jogLayout->addWidget(jogRightButton);
 
+	setTimeZeroButton = new QPushButton(this);
+	setTimeZeroButton->setText("Set Time Zero");
+
 	connect(jogLeftButton, &QPushButton::released, this, &DelayStageGUI::jogLeft);
 	connect(jogRightButton, &QPushButton::released, this, &DelayStageGUI::jogRight);
 
 	connect(jogSizeText, &QLineEdit::returnPressed, this, &DelayStageGUI::updatejogSize);
+
+	connect(setTimeZeroButton, &QPushButton::released, this, &DelayStageGUI::setTimeZero);
 
 	posLayout = new QHBoxLayout();
 
@@ -61,6 +66,7 @@ DelayStageGUI::DelayStageGUI(QWidget *parent) : QWidget(parent)
 	delayStageLayout->addWidget(panelTitle);
 	delayStageLayout->addLayout(posLayout);
 	delayStageLayout->addLayout(jogLayout);
+	delayStageLayout->addWidget(setTimeZeroButton);
 
 	posValue->setText(QString::number(position, 'f', 4));
 
@@ -93,6 +99,11 @@ void DelayStageGUI::updatejogSize()
 {
 	jogSize = jogSizeText->text().toDouble();
 	
+}
+
+void DelayStageGUI::setTimeZero()
+{
+	delayStage->setTimeZero();
 }
 
 DelayStageGUI::~DelayStageGUI()

@@ -2,8 +2,8 @@
 
 DelayStage::DelayStage()
 {
-	c_mm_per_ps = 0.299792458;
-	inv_c_ps_per_mm = 3.335640952;
+	c_mm_per_ps = 0.5*0.299792458;
+	inv_c_ps_per_mm = 1/c_mm_per_ps;
 	comPort = "COM5";
 	timeZeroPosition = 0;
 	currentPosition = 0;
@@ -56,7 +56,7 @@ void DelayStage::goToTime(double time)
 
 double DelayStage::getTime()
 {
-	return posToTime(currentPosition);
+	return posToTime(currentPosition- timeZeroPosition);
 }
 
 void DelayStage::setTimeZero()

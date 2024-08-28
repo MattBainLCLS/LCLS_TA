@@ -29,6 +29,8 @@ private:
 	QLabel* posValue;
 	QLabel* posUnit;
 
+	QPushButton* setTimeZeroButton;
+
 	QVBoxLayout* delayStageLayout;
 
 	// Motion functions
@@ -36,6 +38,8 @@ private:
 	void jogRight();
 	void jogLeft();
 	void updatejogSize();
+
+	void setTimeZero();
 
 public:
 	DelayStageGUI(QWidget* parent = nullptr);

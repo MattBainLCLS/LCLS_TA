@@ -6,6 +6,7 @@
 class LiveBuffer
 {
 public:
+	LiveBuffer();
 	LiveBuffer(int numFrames);
 	
 	std::vector<Frame> buffer;

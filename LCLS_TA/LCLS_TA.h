@@ -46,8 +46,12 @@ private:
     void randomize();
 
     void snap();
+    void snapToBuffer();
     void save();
     void toggleHardware();
     void toggleLive();
+
+    LiveBuffer liveBuffer;
+
 
 };

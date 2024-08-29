@@ -5,11 +5,24 @@ Spectrum::Spectrum()
 
 Spectrum::Spectrum(arma::Mat<double> data)
 {
-	intensities = arma::mean(data, 1);
+	intensities = arma::vec(data.n_rows, arma::fill::zeros);
+	variance = intensities;
 
-	intensities.transform([](double val) { return (std::isfinite(val) ? val : double(0)); }); // Dealing with Nans and infs but probably gets the mean val wrong!
-	//intensities.transform([](double val) { return (arma::is(val) ? double(0) : val); });
-	variance = arma::var(data, 0, 1);
+	arma::rowvec finiterow;
+
+	for (int i = 0; i < data.n_rows; i++)
+	{
+		arma::rowvec myrow = data.row(i);
+		arma::uvec indices = arma::find_finite(myrow);
+		
+		if (!indices.is_empty())
+		{
+			finiterow = myrow.cols(indices);
+			intensities(i) = arma::mean(finiterow);
+			variance(i) = arma::var(finiterow);
+		}
+
+	}
 
 }
 

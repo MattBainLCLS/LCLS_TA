@@ -4,14 +4,14 @@
 Frame::Frame(arma::Mat<double> image)
 {
 
-    length = image.n_cols;
+    length = image.n_cols; // Number of images
 
-    pumpOffIndices = arma::conv_to<arma::uvec>::from(arma::linspace(0, length-2, length / 2));
+    pumpOffIndices = arma::conv_to<arma::uvec>::from(arma::linspace(0, length-2, length / 2)); // Number of image pump on and pump off
     pumpOnIndices = pumpOffIndices + 1;
 
     pumpOff = Spectrum(image.cols(pumpOffIndices));
     pumpOn = Spectrum(image.cols(pumpOnIndices));
-    transientAbsorption = Spectrum(arma::log10(image.rows(pumpOffIndices) / image.rows(pumpOnIndices)));
+    transientAbsorption = Spectrum(arma::log10(image.cols(pumpOffIndices) / image.cols(pumpOnIndices)));
 
 
 

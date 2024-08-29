@@ -1,5 +1,11 @@
 #include "LiveBuffer.h"
 
+LiveBuffer::LiveBuffer()
+{
+	bufferSize = 3;
+	bufferCount = 0;
+}
+
 LiveBuffer::LiveBuffer(int numFrames)
 {
 	bufferSize = numFrames;
@@ -102,7 +108,7 @@ QList<QPointF> LiveBuffer::getTA()
 			{
 				point.setY(point.y() + buffer[j].transientAbsorptionIntensities()->at(i));
 			}
-			//point.setY(point.y() / bufferSize);
+			point.setY(point.y() / bufferSize);
 
 			timeSeries.push_back(point);
 

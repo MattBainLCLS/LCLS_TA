@@ -2,8 +2,7 @@
 
 #include "SapClassBasic.h"
 
-LCLS_TA::LCLS_TA(QWidget *parent)
-    : QMainWindow(parent)
+LCLS_TA::LCLS_TA(QWidget *parent) : QMainWindow(parent)
 {
     ui.setupUi(this);
 
@@ -21,7 +20,7 @@ LCLS_TA::LCLS_TA(QWidget *parent)
     series = new QLineSeries(this);
 
     liveTimer = new QTimer(this);
-    connect(liveTimer, &QTimer::timeout, this, &LCLS_TA::snap);
+    connect(liveTimer, &QTimer::timeout, this, &LCLS_TA::snapToBuffer);
 
     for (int i = 0; i < 8192; i++)
     {
@@ -122,17 +121,19 @@ void LCLS_TA::randomize()
 
 void LCLS_TA::snap()
 {
-    LiveBuffer myBuffer = LiveBuffer(3);
-    statusBox->setText("Snapping..");
-    Frame grabbedData = Frame(camera->snap());
+    //LiveBuffer myBuffer = LiveBuffer(3);
+    //statusBox->setText("Snapping..");
 
-    myBuffer.update(grabbedData);
+    Frame grabbedData(camera->snap());
 
-    /*QList<QPointF> myList;
+
+    QList<QPointF> myList;
     QPointF point;
 
-    arma::vec* pumpOffData = grabbedData.pumpOffIntensities();
-    for (int i = 0; i < 8192; i++)
+    arma::vec* pumpOffData = grabbedData.transientAbsorptionIntensities();
+
+    statusBox->setText("Ta length nelem = " + QString::number(pumpOffData->n_elem));
+    for (int i = 0; i < pumpOffData->n_elem; i++)
     {
         point.setX(i);
         point.setY(pumpOffData->at(i));
@@ -140,17 +141,27 @@ void LCLS_TA::snap()
 
     }
 
-    series->replace(myList);*/
+    series->replace(myList);
 
     //series->replace(myBuffer.getPumpOff());
-    series->replace(myBuffer.getTA());
-    statusBox->setText("Snapped finished");
+    
+    //series->replace(myBuffer.getTA());
+    //statusBox->setText("Snapped finished");
+}
+
+void LCLS_TA::snapToBuffer()
+{
+    Frame grabbedData = Frame(camera->snap());
+    liveBuffer.update(grabbedData);
+
+    series->replace(liveBuffer.getTA());
 }
 
 void LCLS_TA::toggleLive()
 {
     if (!liveTimer->isActive())
     {
+        liveBuffer = LiveBuffer(3); // Create a fresh buffer
         liveTimer->start(100); // Start at 10 Hz
         statusBox->setText("Running");
         liveButton->setText("Stop");

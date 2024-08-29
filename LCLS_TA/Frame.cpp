@@ -13,10 +13,6 @@ Frame::Frame(arma::Mat<double> image)
     pumpOn = Spectrum(image.cols(pumpOnIndices));
     transientAbsorption = Spectrum(arma::log10(image.cols(pumpOffIndices) / image.cols(pumpOnIndices)));
 
-
-
-
-
 }
 
 arma::vec* Frame::pumpOffIntensities()

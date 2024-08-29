@@ -33,6 +33,9 @@ private:
     QPushButton* saveButton;
     QTimer* liveTimer;
 
+    QComboBox* liveGraphCombo;
+    QLineEdit* bufferSizeEdit;
+
     QChart* liveGraph;
     QList<QAbstractAxis*> liveGraphVerticalAxis;
     QList<QAbstractAxis*> liveGraphHorizontalAxis;
@@ -52,6 +55,8 @@ private:
     void toggleLive();
 
     LiveBuffer liveBuffer;
+
+    void resizeBuffer();
 
 
 };

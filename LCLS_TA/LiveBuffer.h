@@ -15,13 +15,14 @@ public:
 
 	QList<QPointF> getTA();
 	QList<QPointF> getPumpOff();
+	
 
 private:
 	int bufferCount;
 
 	void increment();
-
 	int bufferSize;
+	
 	
 };
 

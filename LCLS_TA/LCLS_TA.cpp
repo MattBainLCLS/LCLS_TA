@@ -9,6 +9,7 @@ LCLS_TA::LCLS_TA(QWidget *parent) : QMainWindow(parent)
     this->resize(1600, 1000);
 
     QVBoxLayout* liveGraphLayout = new QVBoxLayout(parent);
+    QHBoxLayout* liveGraphOptionsLayout = new QHBoxLayout(parent);
     QHBoxLayout* liveGraphButtonLayout = new QHBoxLayout(parent);
     QHBoxLayout* statusLayout = new QHBoxLayout(parent);
 
@@ -44,9 +45,11 @@ LCLS_TA::LCLS_TA(QWidget *parent) : QMainWindow(parent)
     //Buttons
 
     liveButton = new QPushButton("Run", this);
+    liveButton->setEnabled(false);
     connect(liveButton, &QPushButton::released, this, &LCLS_TA::toggleLive);
 
     grabButton = new QPushButton("Grab", this);
+    grabButton->setEnabled(false);
     connect(grabButton, &QPushButton::released, this, &LCLS_TA::snap);
 
     saveButton = new QPushButton("Save", this);
@@ -55,12 +58,29 @@ LCLS_TA::LCLS_TA(QWidget *parent) : QMainWindow(parent)
     initializeButton = new QPushButton("Initialize", this);
     connect(initializeButton, &QPushButton::released, this, &LCLS_TA::toggleHardware);
 
+    liveGraphCombo = new QComboBox(this);
+    liveGraphCombo->addItem("Transient Absorption");
+    liveGraphCombo->addItem("Pump Off");
+    liveGraphCombo->addItem("Pump On");
+
+    //bufferSize
+    QLabel* bufferSizeLabel = new QLabel("Buffer Size:", this);
+
+    QIntValidator* bufferSizeValidator = new QIntValidator();
+    bufferSizeValidator->setBottom(1);
+    bufferSizeEdit = new QLineEdit("3", this);
+    bufferSizeEdit->setValidator(bufferSizeValidator);
+    connect(bufferSizeEdit, &QLineEdit::editingFinished, this, &LCLS_TA::resizeBuffer);
+
+    liveGraphOptionsLayout->addWidget(liveGraphCombo);
+    liveGraphOptionsLayout->addWidget(bufferSizeLabel);
+    liveGraphOptionsLayout->addWidget(bufferSizeEdit);
+
 
     //
     DelayStageGUI* mystage = new DelayStageGUI(this);
     Measurement* tacontrol = new Measurement(this);
    
-
     QHBoxLayout* mainLayout = new QHBoxLayout;
 
     // Status box
@@ -81,9 +101,12 @@ LCLS_TA::LCLS_TA(QWidget *parent) : QMainWindow(parent)
     //// TESTING
     //DelayStage* testDelayStage = new DelayStage();
 
-
+    liveGraphLayout->addLayout(liveGraphOptionsLayout);
     liveGraphLayout->addLayout(liveGraphButtonLayout);
+    
     liveGraphLayout->addLayout(statusLayout);
+
+    
     //liveGraphLayout->addLayout(mystage->getLayout());
     //liveGraphLayout->addWidget(mystage);
 
@@ -209,15 +232,26 @@ void LCLS_TA::toggleHardware()
         }
         else
         {
+            grabButton->setEnabled(true);
+            liveButton->setEnabled(true);
             statusBox->setText("Initialized.");
+            
         }
     }
     else
     {
         camera->terminate();
+        grabButton->setEnabled(false);
+        liveButton->setEnabled(false);
         statusBox->setText("Terminated.");
     }
     
+}
+
+void LCLS_TA::resizeBuffer()
+{
+    liveBuffer = LiveBuffer(bufferSizeEdit->text().toInt());
+    //(bufferSizeEdit->text()))
 }
 
 LCLS_TA::~LCLS_TA()

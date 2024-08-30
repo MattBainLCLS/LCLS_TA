@@ -90,7 +90,7 @@ QList<QPointF> LiveBuffer::getTA()
 	{
 		for (int i = 0; i < 8192; i++)
 		{
-			point.setY(10);
+			point.setY(0);
 			point.setX(i);
 
 			timeSeries.push_back(point);
@@ -101,7 +101,7 @@ QList<QPointF> LiveBuffer::getTA()
 	{
 		for (int i = 0; i < 8192; i++)
 		{
-			point.setY(1);
+			point.setY(0);
 			point.setX(i);
 
 			for (int j = 0; j < bufferSize; j++)

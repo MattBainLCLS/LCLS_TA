@@ -23,6 +23,7 @@ Measurement::Measurement(QWidget* parent) : QWidget(parent)
 
 	stopButton->setText("Stop");
 	stopButton->setStyleSheet("color: red");
+	stopButton->setEnabled(false);
 
 	generateDelays->setText("Generate Delays");
 	connect(generateDelays, &QPushButton::released, this, &Measurement::showDelayGenerator);
@@ -50,6 +51,8 @@ void Measurement::toggleRun()
 	{
 		runButton->setText("Pause");
 		runButton->setStyleSheet("color: orange");
+		stopButton->setEnabled(true);
+		runScan();
 	}
 	else
 	{
@@ -64,6 +67,68 @@ void Measurement::showDelayGenerator()
 	delaywindow = new DelayGenerate(nullptr, &timeDelays);
 	//delaywindow->setBaseSize(1000, 750);
 	delaywindow->show();
+}
+
+void Measurement::setDelayStage(DelayStage* newDelayStage)
+{
+	delayStage = newDelayStage;
+}
+
+void Measurement::setCamera(Camera* newCamera)
+{
+	camera = newCamera;
+}
+
+void Measurement::setBuffer(LiveBuffer* myBuffer)
+{
+	liveBuffer = myBuffer;
+}
+void Measurement::setLiveTimer(QTimer* newLiveTimer)
+{
+	liveTimer = newLiveTimer;;
+}
+
+void Measurement::runScan()
+{
+	//liveBuffer = new LiveBuffer(3);
+	//liveTimer->start();
+	for (int i = 0; i < timeDelays.size(); i++)
+	{
+		delayStage->goToTime(timeDelays[i]);
+		Frame grabbedData(camera->snap());
+		//liveBuffer->update(grabbedData);
+		// Placeholder for saving data
+		saveData(grabbedData, timeDelays[i]);
+	}
+
+	//liveTimer->stop();
+}
+
+void Measurement::saveData(Frame data, double time)
+{
+	std::ofstream saveFile;
+	saveFile.open("C:\\Users\\mattbain-a\\Data\\dataout.csv", std::ios_base::app);
+	arma::vec* pumpoff = data.pumpOffIntensities();
+	arma::vec* pumpon = data.pumpOnIntensities();
+	arma::vec* ta = data.transientAbsorptionIntensities();
+	
+	saveFile << time << std::endl;
+	for (int i = 0; i < pumpoff->n_elem; i++)
+	{
+		saveFile << pumpoff->at(i) << ",";
+	}
+	saveFile << std::endl;
+	for (int i = 0; i < pumpon->n_elem; i++)
+	{
+		saveFile << pumpon->at(i) << ",";
+	}
+	saveFile << std::endl;
+	for (int i = 0; i < ta->n_elem; i++)
+	{
+		saveFile << ta->at(i) << ",";
+	}
+	saveFile << std::endl;
+	saveFile.close();
 }
 
 Measurement::~Measurement()

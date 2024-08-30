@@ -11,6 +11,7 @@ class DelayStageGUI : public QWidget
 	Q_OBJECT
 private:
 
+	//Hardware
 	DelayStage* delayStage;
 
 	double position;
@@ -43,6 +44,11 @@ private:
 
 public:
 	DelayStageGUI(QWidget* parent = nullptr);
+
+	DelayStage* getDelayStagePtr()
+	{
+		return delayStage;
+	}
 	~DelayStageGUI();
 
 	double getPosition();

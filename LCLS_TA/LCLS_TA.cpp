@@ -62,6 +62,7 @@ LCLS_TA::LCLS_TA(QWidget *parent) : QMainWindow(parent)
     liveGraphCombo->addItem("Transient Absorption");
     liveGraphCombo->addItem("Pump Off");
     liveGraphCombo->addItem("Pump On");
+    connect(liveGraphCombo, &QComboBox::currentIndexChanged, this, &LCLS_TA::rescaleYAxis);
 
     //bufferSize
     QLabel* bufferSizeLabel = new QLabel("Buffer Size:", this);
@@ -80,6 +81,7 @@ LCLS_TA::LCLS_TA(QWidget *parent) : QMainWindow(parent)
     //
     DelayStageGUI* mystage = new DelayStageGUI(this);
     Measurement* tacontrol = new Measurement(this);
+    
    
     QHBoxLayout* mainLayout = new QHBoxLayout;
 
@@ -125,6 +127,13 @@ LCLS_TA::LCLS_TA(QWidget *parent) : QMainWindow(parent)
     setCentralWidget(liveWindow);
 
     camera = new Camera();
+    liveBuffer = LiveBuffer(3);
+
+
+    tacontrol->setDelayStage(mystage->getDelayStagePtr());
+    tacontrol->setCamera(camera);
+    tacontrol->setLiveTimer(liveTimer);
+    tacontrol->setBuffer(&liveBuffer);
     
     statusBox->setText("Ready");
 }
@@ -252,6 +261,20 @@ void LCLS_TA::resizeBuffer()
 {
     liveBuffer = LiveBuffer(bufferSizeEdit->text().toInt());
     //(bufferSizeEdit->text()))
+}
+
+void LCLS_TA::rescaleYAxis()
+{
+    //QString graphChoice = liveGraphCombo->currentText();
+    std::string graphChoiceStr = liveGraphCombo->currentText().toStdString();
+    if (graphChoiceStr == "Transient Absorption")
+    {
+        liveGraphVerticalAxis.first()->setRange(-1E-1, 1E-1);
+    }
+    else
+    {
+        liveGraphVerticalAxis.first()->setRange(-10, 4100);
+    }
 }
 
 LCLS_TA::~LCLS_TA()

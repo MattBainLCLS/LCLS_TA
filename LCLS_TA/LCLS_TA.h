@@ -57,6 +57,7 @@ private:
     LiveBuffer liveBuffer;
 
     void resizeBuffer();
+    void rescaleYAxis();
 
 
 };

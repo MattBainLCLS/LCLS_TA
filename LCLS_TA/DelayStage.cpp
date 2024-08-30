@@ -1,4 +1,8 @@
 #include "DelayStage.h"
+#include <thread>
+#include <chrono>
+
+using namespace std::chrono_literals;
 
 DelayStage::DelayStage()
 {
@@ -50,6 +54,10 @@ void DelayStage::goToTime(double time)
 	std::string instruction = "1PA" + std::to_string(targetPosition) + "\r";
 
 	serialWrite(instruction);
+
+	//const std::chrono::duration<double, std::milli> sleeptime = 1000;
+
+	std::this_thread::sleep_for(1000ms);
 
 	currentPosition = targetPosition;
 }

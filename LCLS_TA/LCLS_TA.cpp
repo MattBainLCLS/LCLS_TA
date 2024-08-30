@@ -162,7 +162,9 @@ void LCLS_TA::snap()
     QList<QPointF> myList;
     QPointF point;
 
-    arma::vec* pumpOffData = grabbedData.transientAbsorptionIntensities();
+    arma::vec* pumpOffData = grabbedData.pumpOffIntensities();
+
+    pumpOffData->save("C:\\Users\\mattbain-a\\Data\\armadata2.csv", arma::csv_ascii);
 
     statusBox->setText("Ta length nelem = " + QString::number(pumpOffData->n_elem));
     for (int i = 0; i < pumpOffData->n_elem; i++)
@@ -185,8 +187,20 @@ void LCLS_TA::snapToBuffer()
 {
     Frame grabbedData = Frame(camera->snap());
     liveBuffer.update(grabbedData);
+    std::string graphChoiceStr = liveGraphCombo->currentText().toStdString();
+    if (graphChoiceStr == "Transient Absorption")
+    {
+        series->replace(liveBuffer.getTA());
 
-    series->replace(liveBuffer.getTA());
+    }
+    else if (graphChoiceStr == "Pump On")
+    {
+        series->replace(liveBuffer.getPumpOn());
+    }
+    else if (graphChoiceStr == "Pump Off")
+    {
+        series->replace(liveBuffer.getPumpOff());
+    }
 }
 
 void LCLS_TA::toggleLive()
@@ -269,7 +283,7 @@ void LCLS_TA::rescaleYAxis()
     std::string graphChoiceStr = liveGraphCombo->currentText().toStdString();
     if (graphChoiceStr == "Transient Absorption")
     {
-        liveGraphVerticalAxis.first()->setRange(-1E-1, 1E-1);
+        liveGraphVerticalAxis.first()->setRange(-5E-3, 5E-3);
     }
     else
     {

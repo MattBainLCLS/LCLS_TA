@@ -40,6 +40,45 @@ void LiveBuffer::update(Frame newFrame)
 	increment();
 }
 
+QList<QPointF> LiveBuffer::getPumpOn()
+{
+	QList<QPointF> timeSeries;
+	QPointF point;
+
+	int bufferSize = buffer.size();
+
+	if (bufferSize == 0)
+	{
+		for (int i = 0; i < 8192; i++)
+		{
+			point.setY(0);
+			point.setX(i);
+
+			timeSeries.push_back(point);
+
+		}
+	}
+	else
+	{
+		for (int i = 0; i < 8192; i++)
+		{
+			point.setY(0);
+			point.setX(i);
+
+			for (int j = 0; j < bufferSize; j++)
+			{
+				point.setY(point.y() + buffer[j].pumpOnIntensities()->at(i));
+			}
+			point.setY(point.y() / bufferSize);
+
+			timeSeries.push_back(point);
+
+		}
+	}
+
+	return timeSeries;
+}
+
 QList<QPointF> LiveBuffer::getPumpOff()
 {
 	QList<QPointF> timeSeries;
@@ -51,7 +90,7 @@ QList<QPointF> LiveBuffer::getPumpOff()
 	{
 		for (int i = 0; i < 8192; i++)
 		{
-			point.setY(10);
+			point.setY(0);
 			point.setX(i);
 
 			timeSeries.push_back(point);
@@ -62,7 +101,7 @@ QList<QPointF> LiveBuffer::getPumpOff()
 	{
 		for (int i = 0; i < 8192; i++)
 		{
-			point.setY(1);
+			point.setY(0);
 			point.setX(i);
 
 			for (int j = 0; j < bufferSize; j++)

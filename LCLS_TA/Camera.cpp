@@ -1,4 +1,5 @@
 #include "Camera.h"
+#include <fstream>
 
 Camera::Camera()
 {
@@ -85,6 +86,8 @@ arma::Mat<double> Camera::snap()
 	{
 		myData(i) = (double)image_buffer_uint_[i];
 	}
+
+	
 
 	//image_buffer_dbl_ = (double*)image_buffer_;
 

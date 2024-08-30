@@ -15,6 +15,8 @@ public:
 
 	QList<QPointF> getTA();
 	QList<QPointF> getPumpOff();
+	QList<QPointF> getPumpOn();
+
 	
 
 private:

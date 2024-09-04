@@ -1,5 +1,7 @@
 #include "Measurement.h"
 
+#include <qdebug.h>
+
 Measurement::Measurement(QWidget* parent) : QWidget(parent)
 {
 	running = false;
@@ -90,24 +92,30 @@ void Measurement::setLiveTimer(QTimer* newLiveTimer)
 
 void Measurement::runScan()
 {
+	qInfo() << "Running scan";
 	//liveBuffer = new LiveBuffer(3);
 	//liveTimer->start();
+
+	std::string fileName = QFileDialog::getSaveFileName(this, "Save File", "C:\\Users\\mattbain-a\\Data").toStdString();
+	//std::string savePath = "C:\\Users\\mattbain-a\\Data\\" + fileName;
+	
 	for (int i = 0; i < timeDelays.size(); i++)
 	{
 		delayStage->goToTime(timeDelays[i]);
 		Frame grabbedData(camera->snap());
 		//liveBuffer->update(grabbedData);
 		// Placeholder for saving data
-		saveData(grabbedData, timeDelays[i]);
+		saveData(grabbedData, timeDelays[i], fileName);
 	}
 
 	//liveTimer->stop();
 }
 
-void Measurement::saveData(Frame data, double time)
+void Measurement::saveData(Frame data, double time, std::string savePath)
 {
 	std::ofstream saveFile;
-	saveFile.open("C:\\Users\\mattbain-a\\Data\\dataout.csv", std::ios_base::app);
+	//saveFile.open("C:\\Users\\mattbain-a\\Data\\dataout.csv", std::ios_base::app);
+	saveFile.open(savePath, std::ios_base::app);
 	arma::vec* pumpoff = data.pumpOffIntensities();
 	arma::vec* pumpon = data.pumpOnIntensities();
 	arma::vec* ta = data.transientAbsorptionIntensities();

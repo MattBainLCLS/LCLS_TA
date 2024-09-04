@@ -55,6 +55,9 @@ LCLS_TA::LCLS_TA(QWidget *parent) : QMainWindow(parent)
     saveButton = new QPushButton("Save", this);
     connect(saveButton, &QPushButton::released, this, &LCLS_TA::save);
 
+    saveRawButton = new QPushButton("Save Raw", this);
+    connect(saveRawButton, &QPushButton::released, this, &LCLS_TA::saveRaw);
+
     initializeButton = new QPushButton("Initialize", this);
     connect(initializeButton, &QPushButton::released, this, &LCLS_TA::toggleHardware);
 
@@ -96,6 +99,7 @@ LCLS_TA::LCLS_TA(QWidget *parent) : QMainWindow(parent)
     liveGraphButtonLayout->addWidget(liveButton);
     liveGraphButtonLayout->addWidget(grabButton);
     liveGraphButtonLayout->addWidget(saveButton);
+    liveGraphButtonLayout->addWidget(saveRawButton);
     
     statusLayout->addWidget(statusBox);
     statusLayout->addWidget(initializeButton);
@@ -164,7 +168,7 @@ void LCLS_TA::snap()
 
     arma::vec* pumpOffData = grabbedData.pumpOffIntensities();
 
-    pumpOffData->save("C:\\Users\\mattbain-a\\Data\\armadata2.csv", arma::csv_ascii);
+    //pumpOffData->save("C:\\Users\\mattbain-a\\Data\\armadata2.csv", arma::csv_ascii);
 
     statusBox->setText("Ta length nelem = " + QString::number(pumpOffData->n_elem));
     for (int i = 0; i < pumpOffData->n_elem; i++)
@@ -186,21 +190,40 @@ void LCLS_TA::snap()
 void LCLS_TA::snapToBuffer()
 {
     Frame grabbedData = Frame(camera->snap());
-    liveBuffer.update(grabbedData);
+    //liveBuffer.update(grabbedData);
     std::string graphChoiceStr = liveGraphCombo->currentText().toStdString();
+    arma::vec* data = NULL;
+    
     if (graphChoiceStr == "Transient Absorption")
     {
-        series->replace(liveBuffer.getTA());
-
+        //series->replace(liveBuffer.getTA());
+        //series->replace(grabbedData.transientAbsorptionIntensities());
+        data = grabbedData.transientAbsorptionIntensities();
     }
     else if (graphChoiceStr == "Pump On")
     {
-        series->replace(liveBuffer.getPumpOn());
+        //series->replace(liveBuffer.getPumpOn());
+        data = grabbedData.pumpOnIntensities();;
     }
     else if (graphChoiceStr == "Pump Off")
     {
-        series->replace(liveBuffer.getPumpOff());
+        //series->replace(liveBuffer.getPumpOff());
+        data = grabbedData.pumpOffIntensities();
     }
+
+    QList<QPointF> timeSeries;
+    QPointF point;
+
+    for (int i = 0; i < 8192; i++)
+    {
+        //point.setX((19.3 * (double)i) + 279);
+        point.setX(i);
+        point.setY(data->at(i));
+        timeSeries.push_back(point);
+    }
+
+    series->replace(timeSeries);
+
 }
 
 void LCLS_TA::toggleLive()
@@ -239,6 +262,17 @@ void LCLS_TA::save()
     }
 
     my_file.close();
+
+}
+
+void LCLS_TA::saveRaw()
+{
+
+    arma::mat data = camera->snap();
+    
+    std::string fileName = QFileDialog::getSaveFileName(this, "Save File", "C:\\Users\\mattbain-a\\Data").toStdString();
+
+    data.save(fileName, arma::csv_ascii);
 
 }
 
@@ -283,7 +317,7 @@ void LCLS_TA::rescaleYAxis()
     std::string graphChoiceStr = liveGraphCombo->currentText().toStdString();
     if (graphChoiceStr == "Transient Absorption")
     {
-        liveGraphVerticalAxis.first()->setRange(-5E-3, 5E-3);
+        liveGraphVerticalAxis.first()->setRange(-25E-3, 25E-3);
     }
     else
     {

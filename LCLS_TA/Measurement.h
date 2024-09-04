@@ -54,7 +54,7 @@ public:
 	void setBuffer(LiveBuffer* myBuffer);
 	void setLiveTimer(QTimer* newLiveTimer);
 
-	void saveData(Frame data, double time);
+	void saveData(Frame data, double time, std::string savePath);
 
 	~Measurement();
 

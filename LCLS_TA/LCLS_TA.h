@@ -31,6 +31,7 @@ private:
     QPushButton* grabButton;
     QPushButton* liveButton;
     QPushButton* saveButton;
+    QPushButton* saveRawButton;
     QTimer* liveTimer;
 
     QComboBox* liveGraphCombo;
@@ -51,6 +52,7 @@ private:
     void snap();
     void snapToBuffer();
     void save();
+    void saveRaw();
     void toggleHardware();
     void toggleLive();
 
